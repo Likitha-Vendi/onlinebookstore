@@ -1,15 +1,6 @@
-FROM maven:3.8.6-openjdk-8 AS build
-
-WORKDIR /app
-COPY . .
-
-RUN mvn clean package -DskipTests
-
 FROM tomcat:9.0
 
-# IMPORTANT: deploy as ROOT app
-COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+COPY . /usr/local/tomcat/webapps/ROOT
 
 EXPOSE 8080
-
 CMD ["catalina.sh", "run"]
